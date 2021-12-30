@@ -15,8 +15,8 @@
 /*!
 Esta clase contiene dos variables tipo double para representar un numero complejo.
 */
-class Complex
-{
+class Complex{
+    
     public:
         //! Parte real
         float Re = 0;

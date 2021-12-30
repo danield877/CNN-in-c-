@@ -1,6 +1,5 @@
 #include "Complex.hpp"
 #include "Matriz.hpp"
-#include "FT.hpp"
 #include <iostream>
 #include <cmath>
 #include <fstream>
@@ -10,8 +9,8 @@
 using namespace std;
 
 
-int main()
-{
+int main(){
+
     int k = 0;
     Convolucion conv;
 
@@ -29,9 +28,7 @@ int main()
     Matriz f2(12, 4, 5, 5, false);
     f2.random();
 
-  
-
-    
+     
 
     for(int epoch = 0; epoch < 30; epoch++){
 
@@ -136,9 +133,6 @@ int main()
         int N = 0;
         float* input = conv.flatten(max2, &N);
 
-       
-        
-
         float* pn = nn.Forward(input);
 
 
@@ -176,9 +170,7 @@ int main()
 
         
 
-        nn.Update(lr);
-
-        
+        nn.Update(lr);       
 
         Matriz deltaWn_2 = conv.Conv2Db(&max1, &delta2); //imax(4, 12, 12)  delta2{12, 8, 8}
 
@@ -190,18 +182,16 @@ int main()
 
     }
 
-
+    cout << "  "  << endl;
 
     for (int i = 0; i < 10; i++){
         int j = 20000 + i;
         Matriz *test = imagenes->Matrices[j];
         test->normalize(255);
 
-
         Matriz con1 = conv.Conv2D(test, &f1, 1);
         Matriz relu1 = conv.activation(con1);
         Matriz max1 = conv.MaxPooling(relu1, 0, 2, 2);
-
 
         Matriz con2 = conv.Conv2D(&max1, &f2, 1);
         Matriz relu2 = conv.activation(con2);
@@ -213,11 +203,10 @@ int main()
         float* pn = nn.Forward(input);
 
         for (int i = 0; i < 10; i++){
-            cout << i << " = " << pn[i] << endl;
+            cout << i << " -> " << pn[i] << endl;
         }
-        cout << " label =  " << labels[j] << endl;
+        cout << "True label =  " << labels[j] << endl << endl;
 
     }        
-    
-    return 0;
+
 }

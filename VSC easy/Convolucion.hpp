@@ -7,11 +7,9 @@
 #include <iostream>
 
 
-class Convolucion
-{
+class Convolucion{
     public:
-
-        
+       
         Matriz* leer_imagenes(std::string, int&, int&);
 
         int* leer_etiquetas(std::string, int&);
@@ -45,8 +43,8 @@ class Convolucion
 };
 
 
-Matriz* Convolucion::leer_imagenes(std::string full_path, int& number_of_images, int& image_size) 
-{
+Matriz* Convolucion::leer_imagenes(std::string full_path, int& number_of_images, int& image_size) {
+
     auto reverseInt = [](int i) {
 
         unsigned char c1, c2, c3, c4;
@@ -88,37 +86,33 @@ Matriz* Convolucion::leer_imagenes(std::string full_path, int& number_of_images,
         
         Matriz *imagenes = new Matriz(number_of_images, 28, 28, false);
         
-        for(int i = 0; i < number_of_images; i++)
-        {
+        for(int i = 0; i < number_of_images; i++){
             
             unsigned char p[image_size];
             file.read((char *)p, sizeof(p));
 
             int aux = 0;
             float temp = 0;
-            for (int k = 0; k < 28 ; k++)
-            {
-                for (int j = 0; j < 28 ; j++)
-                {
+            for (int k = 0; k < 28 ; k++){
+                for (int j = 0; j < 28 ; j++){
                     
-
                     temp = (float) p[aux];
 
                     imagenes->Matrices[i]->M[k][j] = temp;
-                
-                
+                              
                     aux++;          
                 }
             }
         }
         return imagenes;
-    } else {
+    } 
+    else{
         throw std::runtime_error("Cannot open file `" + full_path + "`!");
     }
 }
 
-int* Convolucion::leer_etiquetas(std::string full_path, int& number_of_labels) {
-    auto reverseInt = [](int i) {
+int* Convolucion::leer_etiquetas(std::string full_path, int& number_of_labels){
+    auto reverseInt = [](int i){
         unsigned char c1, c2, c3, c4;
 
         c1 = i & 255;
@@ -131,7 +125,7 @@ int* Convolucion::leer_etiquetas(std::string full_path, int& number_of_labels) {
 
     std::ifstream file(full_path, std::ios::binary);
 
-    if(file.is_open()) {
+    if(file.is_open()){
 
         int magic_number = 0;
 
@@ -151,11 +145,10 @@ int* Convolucion::leer_etiquetas(std::string full_path, int& number_of_labels) {
         for(int i = 0; i < number_of_labels; i++) {
             
             _dataset[i] = (int) p[i];
-
-
         }
         return _dataset;
-    } else {
+    } 
+    else {
         throw std::runtime_error("Unable to open file `" + full_path + "`!");
     }
 }
@@ -201,37 +194,26 @@ Matriz Convolucion::Conv2D(Matriz* matrices, Matriz* filtros, int s){
                    
 
                     // Declaramos la variable que almacena la suma de cada elemento.
-                    if (filtros->N_matrices > 1)
-                    {
+                    if (filtros->N_matrices > 1){
                         _filtro = filtros->Matrices[index+ aux]->M;
                     }
-                    else
-                    {
+                    else{
                         _filtro = filtros->M;
                     }
 
-                    if (matrices->N_matrices > 1)
-                    {
+                    if (matrices->N_matrices > 1){
                         _matriz = matrices->Matrices[index]->M;
                     }
-                    else
-                    {
+                    else{
                         _matriz = matrices->M;
                     }
                 
-
                     // Recorremos el delta
-                    for (int filtros_m = 0; filtros_m < filtros->dim_matriz_m; filtros_m++)
-                    {
-                        for (int filtros_n = 0; filtros_n < filtros->dim_matriz_n; filtros_n++)
-                        {
-
-                            conv_suma += _matriz[conv_v * s + filtros_m][conv_h * s + filtros_n] * _filtro[filtros_m][filtros_n];
-                            
-                        }
-                        
-                    }
-                    
+                    for (int filtros_m = 0; filtros_m < filtros->dim_matriz_m; filtros_m++){
+                        for (int filtros_n = 0; filtros_n < filtros->dim_matriz_n; filtros_n++){
+                            conv_suma += _matriz[conv_v * s + filtros_m][conv_h * s + filtros_n] * _filtro[filtros_m][filtros_n];                            
+                        }                       
+                    }                   
                 }
                 // Almacenamos la suma.
                 Maps_re->Matrices[maps_index]->M[conv_v][conv_h] = conv_suma; 
@@ -242,8 +224,7 @@ Matriz Convolucion::Conv2D(Matriz* matrices, Matriz* filtros, int s){
 
 }
 
-Matriz Convolucion::Conv2Db(Matriz* input, Matriz* deltas)
-{
+Matriz Convolucion::Conv2Db(Matriz* input, Matriz* deltas){
 
     int Maps_dim_m = input->dim_matriz_m - deltas->dim_matriz_m + 1;
     int Maps_dim_n = input->dim_matriz_n - deltas->dim_matriz_n + 1;
@@ -255,27 +236,20 @@ Matriz Convolucion::Conv2Db(Matriz* input, Matriz* deltas)
 
     Matriz *Maps = new Matriz(N_matrices, Maps_dim_m, Maps_dim_n, false);
 
-    
-    
-
     // Declaramos la matriz resultante de dimension (m,n).
     int Maps_idx = 0;
     
     for (int delta_idx = 0; delta_idx < deltas->N_matrices; delta_idx++){
 
-
         float **_delta;
         _delta = deltas->Matrices[delta_idx]->M;
-
-        
-        
+       
         for (int matriz_idx = 0; matriz_idx < input->N_matrices; matriz_idx++){
 
             float** _matriz;
 
             if (input->N_matrices > 1){
                 _matriz = input->Matrices[matriz_idx]->M;
-
             }
             else{
                 _matriz = input->M;
@@ -304,15 +278,9 @@ Matriz Convolucion::Conv2Db(Matriz* input, Matriz* deltas)
             }
             
             Maps_idx++;
-            
-
-        }
-        
-
+        }       
     }
-
     return *Maps;
-
 }
 
 Matriz Convolucion::fullConv2D(Matriz* filtros, Matriz* deltas){
@@ -375,31 +343,26 @@ Matriz Convolucion::fullConv2D(Matriz* filtros, Matriz* deltas){
     return *Maps;
 } 
  
-Matriz Convolucion::pooling(Matriz matriz, int f, int s)
-{
+Matriz Convolucion::pooling(Matriz matriz, int f, int s){
+
     // Hallamos las dimensiones de la matriz resultante.+
     int n = (matriz.dim_matriz_n - f) / s + 1;
     int m = (matriz.dim_matriz_m - f) / s + 1;
-
 
     Matriz *matriz_re = new Matriz(n, m, false);
 
     int aux_n = 0;
     int aux_m = 0;
 
-    for (int i = 0; i < matriz.dim_matriz_n - 1; i = i + s)
-    {
+    for (int i = 0; i < matriz.dim_matriz_n - 1; i = i + s){
         
         aux_m = 0;
         
-        for (int k = 0; k < matriz.dim_matriz_m - 1; k = k + s)
-        {
+        for (int k = 0; k < matriz.dim_matriz_m - 1; k = k + s){
             
             float suma = 0;
-            for (int ii = 0; ii < f; ii++)
-            {
-                for (int kk = 0; kk < f; kk++)
-                {
+            for (int ii = 0; ii < f; ii++){
+                for (int kk = 0; kk < f; kk++){
                     suma += matriz.M[i + ii][k + kk];
                     
                 }
@@ -409,15 +372,13 @@ Matriz Convolucion::pooling(Matriz matriz, int f, int s)
             
             aux_m++;
         }
-        aux_n++;
-         
+        aux_n++;        
     }
-    return *matriz_re;
-    
+    return *matriz_re;   
 }
 
-Matriz Convolucion::MaxPooling(Matriz matrices, int p, int f, int s)
-{
+Matriz Convolucion::MaxPooling(Matriz matrices, int p, int f, int s){
+
     int matriz_m = matrices.dim_matriz_m;
     int matriz_n = matrices.dim_matriz_n;
 
@@ -429,21 +390,17 @@ Matriz Convolucion::MaxPooling(Matriz matrices, int p, int f, int s)
     Matriz* matriz;
 
 
-    for (int index = 0; index < N_matrices; index++)
-    {
+    for (int index = 0; index < N_matrices; index++){
         
-        if (N_matrices > 1)
-        {
+        if (N_matrices > 1){
             matriz = matrices.Matrices[index];
         }
-        else
-        {
+        else{
             matriz = &matrices; 
         }
     
 
-        if (p >= 1)
-        {
+        if (p >= 1){
             matriz->pading(p, 0);
         }
 
@@ -452,25 +409,20 @@ Matriz Convolucion::MaxPooling(Matriz matrices, int p, int f, int s)
         int matriz_m_idx = 0;
         
         
-        for (int i = 0; i < matriz_m - 1; i = i + s)
-        {
+        for (int i = 0; i < matriz_m - 1; i = i + s){
             
             int matriz_n_idx = 0;
             
-            for (int k = 0; k < matriz_n - 1; k = k + s)
-            {
+            for (int k = 0; k < matriz_n - 1; k = k + s){
                 int save_max_index_m = 0;
                 int save_max_index_n = 0;
                 
                 float max = 0;
-                for (int ii = 0; ii < f; ii++)
-                {
-                    for (int kk = 0; kk < f; kk++)
-                    {
+                for (int ii = 0; ii < f; ii++){
+                    for (int kk = 0; kk < f; kk++){
                         
                         float value = matriz->M[i + ii][k + kk]; 
-                        if (max < value)  
-                        {
+                        if (max < value)  {
                             max = value;
                             save_max_index_m = i + ii;
                             save_max_index_n = k + kk;
@@ -485,18 +437,14 @@ Matriz Convolucion::MaxPooling(Matriz matrices, int p, int f, int s)
                 matriz_re->Matrices[index]->MC[matriz_m_idx][matriz_n_idx].Im = save_max_index_n;
                 
                 matriz_n_idx++;
-            }
-            
+            }           
             matriz_m_idx++;
-        }
-        
-    }
-    
+        }      
+    }   
     return *matriz_re;
 }
 
-Matriz Convolucion::MaxPooling_inv(Matriz matriz_in, Matriz* max_index_matriz , int p, int f, int s)
-{
+Matriz Convolucion::MaxPooling_inv(Matriz matriz_in, Matriz* max_index_matriz , int p, int f, int s){
 
     int m = (matriz_in.dim_matriz_m - 1) * s + f;
     int n = (matriz_in.dim_matriz_n - 1) * s + f;
@@ -525,75 +473,56 @@ Matriz Convolucion::MaxPooling_inv(Matriz matriz_in, Matriz* max_index_matriz , 
                 m_r[max_idx_m][max_idx_n] += matriz[m_idx][n_idx];
 
             }
-        }
-        
-    }
-    
-    
+        }       
+    }   
     return *matriz_re;
 }
 
-float Convolucion::Relu(float x)
-{
-    if (x > 0)
-    {
+float Convolucion::Relu(float x){
+    if (x > 0){
         return x;
     }
-    else
-    {
+    else{
         return 0;
-    }
-    
+    }   
 }
 
-Matriz Convolucion::activation(Matriz matrices)
-{
+Matriz Convolucion::activation(Matriz matrices){
+
     Matriz* matriz_re = new Matriz(matrices.N_matrices, matrices.dim_matriz_m, matrices.dim_matriz_n, false);
     Matriz* matriz;
 
-    for (int index = 0; index < matrices.N_matrices; index++)
-    {
+    for (int index = 0; index < matrices.N_matrices; index++){
         
-        if (matrices.N_matrices > 1)
-        {
+        if (matrices.N_matrices > 1){
             matriz = matrices.Matrices[index];
         }
-        else
-        {
+        else{
             matriz = &matrices; 
         }
-        for (int i = 0; i < matriz->dim_matriz_m; i++)
-        {
-            for (int j = 0; j < matriz->dim_matriz_n; j++)
-            {            
+        for (int i = 0; i < matriz->dim_matriz_m; i++){
+            for (int j = 0; j < matriz->dim_matriz_n; j++){            
                 matriz_re->Matrices[index]->M[i][j] = Relu(matriz->M[i][j]);      
                    
             }
         }
-
     }
-    return *matriz_re;
-    
+    return *matriz_re;   
 }
 
-float* Convolucion::flatten(Matriz matrices, int* N)
-{
+float* Convolucion::flatten(Matriz matrices, int* N){
     int dim_m = matrices.dim_matriz_m;
     int dim_n = matrices.dim_matriz_n;
 
     *N = matrices.N_matrices * dim_m * dim_n;
 
-
     float* r_vector = new float[*N];
 
     int vector_index = 0;
 
-    for (int index = 0; index < matrices.N_matrices; index++)
-    {
-        for (int m = 0; m < dim_m; m++)
-        {
-            for (int n = 0; n < dim_n; n++)
-            {
+    for (int index = 0; index < matrices.N_matrices; index++){
+        for (int m = 0; m < dim_m; m++){
+            for (int n = 0; n < dim_n; n++){
                 r_vector[vector_index] = matrices.Matrices[index]->M[m][n];
                 vector_index++;
             }
@@ -602,8 +531,8 @@ float* Convolucion::flatten(Matriz matrices, int* N)
     return r_vector;
 }
 
-Matriz Convolucion::flatten_inv(float* vec, int len_vec, int f)
-{
+Matriz Convolucion::flatten_inv(float* vec, int len_vec, int f){
+
     int dim_m = f;
     int dim_n = f;
     int N_matrices = len_vec / (f * f);
@@ -612,16 +541,12 @@ Matriz Convolucion::flatten_inv(float* vec, int len_vec, int f)
 
     int vec_idx = 0;
     
-    for (int matriz_idx = 0; matriz_idx < N_matrices; matriz_idx++)
-    {
-        for (int m = 0; m < dim_m; m++)
-        {
-            for (int n = 0; n < dim_n; n++)
-            {
+    for (int matriz_idx = 0; matriz_idx < N_matrices; matriz_idx++){
+        for (int m = 0; m < dim_m; m++){
+            for (int n = 0; n < dim_n; n++){
                 Maps_re->Matrices[matriz_idx]->M[m][n] = vec[vec_idx];
                 vec_idx++;
             }
-
         }
     }
     return *Maps_re;
@@ -646,12 +571,8 @@ Matriz Convolucion::Mult_dRelu(Matriz* M, Matriz* z){
                 }
             }
         }
-
     }
-
-    return *matriz_re;
-
-        
+    return *matriz_re;        
 }
 
 #endif // CONVOLUCION_HPP
