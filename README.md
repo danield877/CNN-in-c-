@@ -16,12 +16,13 @@ Y obtenemos los siguientes resultados:
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/1.png">  </div>
 64% de que sea 5 y 35% de ser 6
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/2.png">  </div>
-
-<div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/3.png"> 91% de ser 3
- </div>
-
+91% de ser 3
+<div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/3.png">  </div>
+95% de ser 7
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/4.png">  </div>
+42% de ser 5 y 56% de ser 6
 
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/5.png">  </div>
+35% de ser 7 y 57% de ser 9
 
 Como vemos en algunos ejemplos, la red desempeña un trabajo genial! y eso que es una red neuronal convolucional básica.
