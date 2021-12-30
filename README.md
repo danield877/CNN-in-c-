@@ -5,4 +5,4 @@ There are two ways to run the code:
 * Compiling it with CMake and executing the file example_MNIST.exe in the Build folder created.
 * Ejecutando el archivo example_MNIST.exe en la carpeta 'VSC easy'.
 
-<div align="center"> <img src="https://render.githubusercontent.com/render/math?math=\Big( - \frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} + V(x) \Big) \phi_n(x) = E_n \phi_n(x)">  </div>
+<div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/red.png">  </div>
