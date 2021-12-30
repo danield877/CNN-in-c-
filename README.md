@@ -22,3 +22,5 @@ Y obtenemos los siguientes resultados:
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/4.png">  </div>
 
 <div align="center"> <img src="https://github.com/danieldhats7/Convolutional-Neural-Network_cpp/blob/main/images/5.png">  </div>
+
+Como vemos en algunos ejemplos, la red desempeña un trabajo genial! y eso que es una red neuronal convolucional básica.
